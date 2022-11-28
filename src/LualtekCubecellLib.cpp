@@ -167,8 +167,14 @@ void LualtekCubecell::loop(bool sleep) {
       LoRaWAN.generateDeveuiByChipID();
       if (DEBUG_SERIAL_ENABLED) {
         printDevParam();
+        debugPrint("Device CLASS: ");
+        debugPrintln(loraWanClass);
+        debugPrint("Device REGION: ");
+        debugPrintln(loraWanRegion);
+        debugPrint("Device duty cycle: ");
+        debugPrintln(appTxDutyCycle);
       }
-      LoRaWAN.init(this->deviceClass, this->deviceRegion);
+      LoRaWAN.init(loraWanClass, loraWanRegion);
       deviceState = DEVICE_STATE_JOIN;
       break;
     }
