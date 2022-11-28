@@ -158,7 +158,7 @@ void LualtekCubecell::setup() {
 void LualtekCubecell::join() {
   this->delayMillis(5000 + randr(0, APP_TX_DUTYCYCLE_RND));
   deviceState = DEVICE_STATE_INIT;
-  LoRaWAN.ifskipjoin();
+  // LoRaWAN.ifskipjoin();
 }
 
 void LualtekCubecell::loop(bool sleep) {
