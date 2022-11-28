@@ -1,6 +1,6 @@
 {
   "name": "cubecell-device-lib",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Helpers function for Cubecell LoRaWAN module",
   "repository":
   {
@@ -16,12 +16,6 @@
       "maintainer": true
     }
   ],
-  "export": {
-    "include":
-    [
-        "lib/**/*"
-    ]
-  },
   "license": "Apache-2.0",
   "frameworks": "arduino",
   "platforms": "asrmicro650x"
