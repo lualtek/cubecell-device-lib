@@ -1,6 +1,24 @@
 #include <LualtekCubecellLib.h>
 #include <CustomEEPROM.h>
 
+uint16_t userChannelsMask[6] = { 0x00FF,0x0000,0x0000,0x0000,0x0000,0x0000 };
+
+bool overTheAirActivation = true;
+bool loraWanAdr = true;
+bool keepNet = false;
+bool isTxConfirmed = false;
+
+uint8_t confirmedNbTrials = 4;
+
+/* ABP (not used) here as placeholder as required for Cubecell lib */
+uint8_t nwkSKey[] = { 0x00 };
+uint8_t appSKey[] = { 0x00 };
+uint32_t devAddr =  ( uint32_t )0x007e6ae1;
+
+uint32_t appTxDutyCycle;
+LoRaMacRegion_t loraWanRegion = LORAMAC_REGION_EU868;
+DeviceClass_t  loraWanClass = CLASS_A;
+
 LualtekCubecell::LualtekCubecell(unsigned long dutyCycleMs, DeviceClass_t deviceClass, LoRaMacRegion_t deviceRegion, Stream &debugStream) {
   this->previousMillis = 0;
   this->dutyCycleMs = {
@@ -13,7 +31,6 @@ LualtekCubecell::LualtekCubecell(unsigned long dutyCycleMs, DeviceClass_t device
     MINUTES_5_IN_MILLISECONDS,
     dutyCycleMs
   };
-
 
   this->deviceClass = deviceClass;
   this->deviceRegion = deviceRegion;
@@ -28,6 +45,12 @@ void LualtekCubecell::debugPrint(const char *message) {
 }
 
 void LualtekCubecell::debugPrintln(const char *message) {
+  if (this->debugStream != NULL && DEBUG_SERIAL_ENABLED) {
+    this->debugStream->println(message);
+  }
+}
+
+void LualtekCubecell::debugPrintln(int message) {
   if (this->debugStream != NULL && DEBUG_SERIAL_ENABLED) {
     this->debugStream->println(message);
   }

@@ -2,8 +2,9 @@
 #ifndef _LUALTEKCUBECELLLIB_H_
 #define _LUALTEKCUBECELLLIB_H_
 
+
 #include "EEPROM.h"
-#include "lorawan_config.h"
+#include <LoRaWan_APP.h>
 #include <Arduino.h>
 #include <Stream.h>
 #if defined(ARDUINO_ARCH_AVR) || defined(ARDUINO_ARCH_SAMD)
@@ -61,7 +62,6 @@ class LualtekCubecell {
   public:
     /* Please use one of the available MINUTES_X_IN_MILLISECONDS constants for dutyCycleMs */
     LualtekCubecell(unsigned long dutyCycleMs, DeviceClass_t deviceClass, LoRaMacRegion_t deviceRegion, Stream &debugStream);
-    LualtekCubecell(unsigned long dutyCycleMs, DeviceClass_t deviceClass, Stream &debugStream);
     void delayMillis(unsigned long millisToWait);
     /* Setup the device with common operations to be done, like setting the device duty cycle, class, region etc */
     void setup();
@@ -89,12 +89,9 @@ class LualtekCubecell {
 
     void debugPrint(const String &s);
     void debugPrint(const char[]);
-    void debugPrint(int i);
-    void debugPrint(unsigned long i);
     void debugPrintln(const String &s);
     void debugPrintln(const char[]);
     void debugPrintln(int i);
-    void debugPrintln(unsigned long i);
 
 
     void handleChangeDutyCycle(int commandIndex);

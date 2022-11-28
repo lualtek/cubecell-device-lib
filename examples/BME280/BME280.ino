@@ -17,7 +17,7 @@ uint8_t appPort = 3;
 
 #define debugSerial Serial
 
-LualtekCubecell ll(DEFAULT_DUTY_CYCLE_MINUTES, CLASS_A, debugSerial);
+LualtekCubecell ll(DEFAULT_DUTY_CYCLE_MINUTES, CLASS_A, LORAMAC_REGION_EU868, debugSerial);
 // BME280 bme280;
 
 int temperature, humidity, batteryVoltage, batteryLevel;
