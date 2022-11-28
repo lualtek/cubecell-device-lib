@@ -9,3 +9,8 @@ bool keepNet = false;
 bool isTxConfirmed = false;
 
 uint8_t confirmedNbTrials = 4;
+
+/* ABP (not used) here as placeholder as required for Cubecell lib */
+uint8_t nwkSKey[] = { 0x00 };
+uint8_t appSKey[] = { 0x00 };
+uint32_t devAddr =  ( uint32_t )0x007e6ae1;
