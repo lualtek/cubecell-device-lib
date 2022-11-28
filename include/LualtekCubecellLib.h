@@ -67,7 +67,8 @@ class LualtekCubecell {
     void setup();
     /* Join via OTAA the device */
     void join();
-    void loop();
+    void loop(bool sleep = true);
+
 
     /**
      * @brief This method is called when the device needs to send an uplink message.

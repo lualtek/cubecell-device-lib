@@ -161,7 +161,7 @@ void LualtekCubecell::join() {
   LoRaWAN.ifskipjoin();
 }
 
-void LualtekCubecell::loop() {
+void LualtekCubecell::loop(bool sleep) {
   switch(deviceState) {
     case DEVICE_STATE_INIT: {
       LoRaWAN.generateDeveuiByChipID();
@@ -188,7 +188,9 @@ void LualtekCubecell::loop() {
       break;
     }
     case DEVICE_STATE_SLEEP: {
-      LoRaWAN.sleep();
+      if (sleep) {
+        LoRaWAN.sleep();
+      }
       break;
     }
     default: {
