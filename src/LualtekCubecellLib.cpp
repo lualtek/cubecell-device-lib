@@ -151,8 +151,8 @@ void LualtekCubecell::setup() {
   }
 
   // Setup LoRaWAN
-  deviceClass = this->deviceClass;
-  deviceRegion = this->deviceRegion;
+  loraWanClass = this->deviceClass;
+  loraWanRegion = this->deviceRegion;
 }
 
 void LualtekCubecell::join() {
@@ -165,8 +165,10 @@ void LualtekCubecell::loop(bool sleep) {
   switch(deviceState) {
     case DEVICE_STATE_INIT: {
       LoRaWAN.generateDeveuiByChipID();
-      printDevParam();
-      LoRaWAN.init(deviceClass, deviceRegion);
+      if (DEBUG_SERIAL_ENABLED) {
+        printDevParam();
+      }
+      LoRaWAN.init(this->deviceClass, this->deviceRegion);
       deviceState = DEVICE_STATE_JOIN;
       break;
     }
