@@ -1,6 +1,6 @@
 # Lualtek device library for Cubecell
 
-> This is a library for the Lualtek device based on cubecell AB01.
+> This is a library for devices based on cubecell AB01.
 
 
 ## How to use it
