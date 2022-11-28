@@ -63,14 +63,12 @@ class LualtekCubecell {
     LualtekCubecell(unsigned long dutyCycleMs, DeviceClass_t deviceClass, LoRaMacRegion_t deviceRegion, Stream &debugStream);
     LualtekCubecell(unsigned long dutyCycleMs, DeviceClass_t deviceClass, Stream &debugStream);
     void delayMillis(unsigned long millisToWait);
+    /* Setup the device with common operations to be done, like setting the device duty cycle, class, region etc */
     void setup();
+    /* Join via OTAA the device */
     void join();
     void loop();
 
-    // bool canSendUplink();
-    // void resetSendInterval();
-    // void resetDownlinkCount();
-    // void handleChangeDutyCycle(int commandIndex);
     /**
      * @brief This method is called when the device needs to send an uplink message.
     */
@@ -87,7 +85,6 @@ class LualtekCubecell {
   private:
     unsigned long previousMillis;
     unsigned long uplinkInterval;
-    int downlinkCount;
     struct DutyCycleMs dutyCycleMs;
 
     void debugPrint(const String &s);

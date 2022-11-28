@@ -17,9 +17,7 @@ LualtekCubecell::LualtekCubecell(unsigned long dutyCycleMs, DeviceClass_t device
 
   this->deviceClass = deviceClass;
   this->deviceRegion = deviceRegion;
-
   this->uplinkInterval = dutyCycleMs;
-  this->downlinkCount = 0;
   this->debugStream = &debugStream;
 }
 
@@ -85,6 +83,7 @@ void LualtekCubecell::handleChangeDutyCycle(int commandIndex) {
     this->debugPrint("Duty cycle: ");
     this->debugPrintln(this->uplinkInterval);
 
+    appTxDutyCycle = this->uplinkInterval;
     writeEEPROM(EEPROM_ADDRESS_DUTY_CYCLE_INDEX, dutyCycleIndexAssinged);
   }
 }
@@ -120,7 +119,17 @@ void LualtekCubecell::onDownlinkReceived(McpsIndication_t *mcpsIndication) {
 }
 
 void LualtekCubecell::setup() {
-  writeEEPROM(EEPROM_ADDRESS_DUTY_CYCLE_INDEX, MINUTES_DEFAULT_COMMAND_INDEX);
+  // Setup duty cycle from EEPROM if available or use default
+  int currentDutyCycleIndex = readEEPROM(EEPROM_ADDRESS_DUTY_CYCLE_INDEX);
+  if (currentDutyCycleIndex >= MINUTES_60_COMMAND_INDEX && currentDutyCycleIndex <= MINUTES_DEFAULT_COMMAND_INDEX) {
+    this->handleChangeDutyCycle(currentDutyCycleIndex);
+  } else {
+    this->handleChangeDutyCycle(MINUTES_DEFAULT_COMMAND_INDEX);
+  }
+
+  // Setup LoRaWAN
+  deviceClass = this->deviceClass;
+  deviceRegion = this->deviceRegion;
 }
 
 void LualtekCubecell::join() {
@@ -134,7 +143,7 @@ void LualtekCubecell::loop() {
     case DEVICE_STATE_INIT: {
       LoRaWAN.generateDeveuiByChipID();
       printDevParam();
-      LoRaWAN.init(this->deviceClass, this->deviceRegion);
+      LoRaWAN.init(deviceClass, deviceRegion);
       deviceState = DEVICE_STATE_JOIN;
       break;
     }
