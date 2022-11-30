@@ -69,6 +69,9 @@ class LualtekCubecell {
     void join();
     void loop(bool sleep = true);
 
+    void writeEEPROM(int address, int value);
+    int readEEPROM(int address);
+
 
     /**
      * @brief This method is called when the device needs to send an uplink message.

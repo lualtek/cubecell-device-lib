@@ -1,5 +1,4 @@
 #include <LualtekCubecellLib.h>
-#include <CustomEEPROM.h>
 
 uint16_t userChannelsMask[6] = { 0x00FF,0x0000,0x0000,0x0000,0x0000,0x0000 };
 
@@ -19,6 +18,9 @@ uint32_t appTxDutyCycle;
 LoRaMacRegion_t loraWanRegion = LORAMAC_REGION_EU868;
 DeviceClass_t  loraWanClass = CLASS_A;
 
+// EEPROM address init (step value is stored here)
+#define EEPROM_ADDRESS_ACTION_VALUE 0
+
 LualtekCubecell::LualtekCubecell(unsigned long dutyCycleMs, DeviceClass_t deviceClass, LoRaMacRegion_t deviceRegion, Stream &debugStream) {
   this->previousMillis = 0;
   this->dutyCycleMs = {
@@ -36,6 +38,22 @@ LualtekCubecell::LualtekCubecell(unsigned long dutyCycleMs, DeviceClass_t device
   this->deviceRegion = deviceRegion;
   this->uplinkInterval = dutyCycleMs;
   this->debugStream = &debugStream;
+}
+
+void LualtekCubecell::writeEEPROM(int address, int value) {
+  EEPROM.begin(512);
+  this->delayMillis(1000);
+  EEPROM.write(address, value);
+  EEPROM.commit();
+  EEPROM.end();
+}
+
+int LualtekCubecell::readEEPROM(int address) {
+  EEPROM.begin(512);
+  this->delayMillis(1000);
+  int value = (int) EEPROM.read(address);
+  EEPROM.end();
+  return value;
 }
 
 void LualtekCubecell::debugPrint(const char *message) {
@@ -107,7 +125,7 @@ void LualtekCubecell::handleChangeDutyCycle(int commandIndex) {
     this->debugPrintln(this->uplinkInterval);
 
     appTxDutyCycle = this->uplinkInterval;
-    writeEEPROM(EEPROM_ADDRESS_DUTY_CYCLE_INDEX, dutyCycleIndexAssinged);
+    this->writeEEPROM(EEPROM_ADDRESS_DUTY_CYCLE_INDEX, dutyCycleIndexAssinged);
   }
 }
 
@@ -143,7 +161,7 @@ void LualtekCubecell::onDownlinkReceived(McpsIndication_t *mcpsIndication) {
 
 void LualtekCubecell::setup() {
   // Setup duty cycle from EEPROM if available or use default
-  int currentDutyCycleIndex = readEEPROM(EEPROM_ADDRESS_DUTY_CYCLE_INDEX);
+  int currentDutyCycleIndex = this->readEEPROM(EEPROM_ADDRESS_DUTY_CYCLE_INDEX);
   if (currentDutyCycleIndex >= MINUTES_60_COMMAND_INDEX && currentDutyCycleIndex <= MINUTES_DEFAULT_COMMAND_INDEX) {
     this->handleChangeDutyCycle(currentDutyCycleIndex);
   } else {
