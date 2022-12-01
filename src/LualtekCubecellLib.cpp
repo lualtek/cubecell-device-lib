@@ -182,7 +182,9 @@ void LualtekCubecell::join() {
 void LualtekCubecell::loop(bool sleep) {
   switch(deviceState) {
     case DEVICE_STATE_INIT: {
-      LoRaWAN.generateDeveuiByChipID();
+      #if(LORAWAN_DEVEUI_AUTO)
+        LoRaWAN.generateDeveuiByChipID();
+      #endif
       if (DEBUG_SERIAL_ENABLED) {
         printDevParam();
         debugPrint("Device CLASS: ");
