@@ -57,21 +57,27 @@ int LualtekCubecell::readEEPROM(int address) {
 }
 
 void LualtekCubecell::debugPrint(const char *message) {
-  if (this->debugStream != NULL && DEBUG_SERIAL_ENABLED) {
-    this->debugStream->print(message);
-  }
+  #if DEBUG_SERIAL_ENABLED
+    if (this->debugStream != NULL) {
+      this->debugStream->print(message);
+    }
+  #endif
 }
 
 void LualtekCubecell::debugPrintln(const char *message) {
-  if (this->debugStream != NULL && DEBUG_SERIAL_ENABLED) {
-    this->debugStream->println(message);
-  }
+  #if DEBUG_SERIAL_ENABLED
+    if (this->debugStream != NULL) {
+      this->debugStream->println(message);
+    }
+  #endif
 }
 
 void LualtekCubecell::debugPrintln(int message) {
-  if (this->debugStream != NULL && DEBUG_SERIAL_ENABLED) {
-    this->debugStream->println(message);
-  }
+  #if DEBUG_SERIAL_ENABLED
+    if (this->debugStream != NULL && ) {
+      this->debugStream->println(message);
+    }
+  #endif
 }
 
 void LualtekCubecell::delayMillis(unsigned long millisToWait) {
@@ -182,10 +188,10 @@ void LualtekCubecell::join() {
 void LualtekCubecell::loop(bool sleep) {
   switch(deviceState) {
     case DEVICE_STATE_INIT: {
-      #if(!CUSTOM_DEVEUI)
+      #if (!CUSTOM_DEVEUI)
         LoRaWAN.generateDeveuiByChipID();
       #endif
-      if (DEBUG_SERIAL_ENABLED) {
+      #if (DEBUG_SERIAL_ENABLED)
         printDevParam();
         debugPrint("Device CLASS: ");
         debugPrintln(loraWanClass);
@@ -193,7 +199,7 @@ void LualtekCubecell::loop(bool sleep) {
         debugPrintln(loraWanRegion);
         debugPrint("Device duty cycle: ");
         debugPrintln(appTxDutyCycle);
-      }
+      #endif
       LoRaWAN.init(loraWanClass, loraWanRegion);
       deviceState = DEVICE_STATE_JOIN;
       break;
