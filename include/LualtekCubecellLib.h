@@ -57,7 +57,7 @@ enum DeviceKind {
 class LualtekCubecell {
   public:
     /* Please use one of the available MINUTES_X_IN_MILLISECONDS constants for dutyCycleMs */
-    LualtekCubecell(unsigned long dutyCycleMs, DeviceClass_t deviceClass, LoRaMacRegion_t deviceRegion, Stream &debugStream);
+    LualtekCubecell(unsigned long dutyCycleMs, DeviceClass_t deviceClass, LoRaMacRegion_t deviceRegion, Stream &debugStream, bool debugEnabled);
     void delayMillis(unsigned long millisToWait);
     /* Setup the device with common operations to be done, like setting the device duty cycle, class, region etc */
     void setup();
@@ -99,6 +99,7 @@ class LualtekCubecell {
     void (*onSendUplinkCallback)(int appPort);
 
     Stream *debugStream = NULL;
+    bool debugEnabled = false;
 
     LoRaMacRegion_t deviceRegion = LORAMAC_REGION_EU868;
     DeviceClass_t deviceClass = CLASS_A;
