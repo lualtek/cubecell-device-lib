@@ -182,7 +182,7 @@ void LualtekCubecell::join() {
 void LualtekCubecell::loop(bool sleep) {
   switch(deviceState) {
     case DEVICE_STATE_INIT: {
-      #if(CUSTOM_DEVEUI)
+      #if(!CUSTOM_DEVEUI)
         LoRaWAN.generateDeveuiByChipID();
       #endif
       if (DEBUG_SERIAL_ENABLED) {
