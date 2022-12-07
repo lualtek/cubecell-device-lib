@@ -18,9 +18,6 @@ uint32_t appTxDutyCycle;
 LoRaMacRegion_t loraWanRegion = LORAMAC_REGION_EU868;
 DeviceClass_t  loraWanClass = CLASS_A;
 
-// EEPROM address init (step value is stored here)
-#define EEPROM_ADDRESS_ACTION_VALUE 0
-
 LualtekCubecell::LualtekCubecell(unsigned long dutyCycleMs, DeviceClass_t deviceClass, LoRaMacRegion_t deviceRegion, Stream &debugStream, bool debugEnabled) {
   this->previousMillis = 0;
   this->dutyCycleMs = {
