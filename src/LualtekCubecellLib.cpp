@@ -177,7 +177,7 @@ void LualtekCubecell::join() {
   // LoRaWAN.ifskipjoin();
 }
 
-void LualtekCubecell::loop(bool sleep = true) {
+void LualtekCubecell::loop() {
   switch(deviceState) {
     case DEVICE_STATE_INIT: {
       #if (!CUSTOM_DEVEUI)
@@ -214,9 +214,7 @@ void LualtekCubecell::loop(bool sleep = true) {
       break;
     }
     case DEVICE_STATE_SLEEP: {
-      if (sleep) {
-        LoRaWAN.sleep();
-      }
+      LoRaWAN.sleep();
       break;
     }
     default: {

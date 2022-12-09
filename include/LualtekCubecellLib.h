@@ -64,7 +64,7 @@ class LualtekCubecell {
     /* Join via OTAA the device */
     void join();
     /* Use sleep = true if you want to handle yourself the sleep phase */
-    void loop(bool sleep = true);
+    void loop();
 
     void writeEEPROM(int address, int value);
     int readEEPROM(int address);
