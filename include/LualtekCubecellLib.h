@@ -17,47 +17,49 @@
   #define EEPROM_ADDRESS_DUTY_CYCLE_INDEX 10
 #endif
 
-#define DOWNLINK_ACTION_COMMAND_PORT 1
-#define DOWNLINK_ACTION_CHANGE_INTERVAL_PORT 3
-#define DOWNLINK_ACTION_REJOIN_PORT 10
-
-#define MINUTES_60_IN_MILLISECONDS 3600000
-#define MINUTES_40_IN_MILLISECONDS 2400000
-#define MINUTES_30_IN_MILLISECONDS 1800000
-#define MINUTES_20_IN_MILLISECONDS 1200000
-#define MINUTES_15_IN_MILLISECONDS 900000
-#define MINUTES_10_IN_MILLISECONDS 600000
-#define MINUTES_5_IN_MILLISECONDS 300000
-
-#define MINUTES_60_COMMAND_INDEX 0
-#define MINUTES_40_COMMAND_INDEX 1
-#define MINUTES_30_COMMAND_INDEX 2
-#define MINUTES_20_COMMAND_INDEX 3
-#define MINUTES_15_COMMAND_INDEX 4
-#define MINUTES_10_COMMAND_INDEX 5
-#define MINUTES_5_COMMAND_INDEX 6
-#define MINUTES_DEFAULT_COMMAND_INDEX 7
-
-struct DutyCycleMs {
-  unsigned long minutes60;
-  unsigned long minutes40;
-  unsigned long minutes30;
-  unsigned long minutes20;
-  unsigned long minutes15;
-  unsigned long minutes10;
-  unsigned long minutes5;
-  unsigned long minutesDefault;
+enum lualtek_downlink_command_ports_t {
+  DOWNLINK_ACTION_COMMAND_PORT = 1,
+  DOWNLINK_ACTION_CHANGE_INTERVAL_PORT = 3,
+  DOWNLINK_ACTION_REJOIN_PORT = 10
 };
 
-enum DeviceKind {
-  sensor,
-  actuator
+enum lualtek_dowlink_command_dutycycle_index_t {
+  MINUTES_60_COMMAND_INDEX = 0,
+  MINUTES_40_COMMAND_INDEX = 1,
+  MINUTES_30_COMMAND_INDEX = 2,
+  MINUTES_20_COMMAND_INDEX = 3,
+  MINUTES_15_COMMAND_INDEX = 4,
+  MINUTES_10_COMMAND_INDEX = 5,
+  MINUTES_5_COMMAND_INDEX = 6,
+  MINUTES_1_COMMAND_INDEX = 7
+};
+
+enum lualtek_dutycycle_ms_t {
+  MINUTES_60_IN_MILLISECONDS = 3600000,
+  MINUTES_40_IN_MILLISECONDS = 2400000,
+  MINUTES_30_IN_MILLISECONDS = 1800000,
+  MINUTES_20_IN_MILLISECONDS = 1200000,
+  MINUTES_15_IN_MILLISECONDS = 900000,
+  MINUTES_10_IN_MILLISECONDS = 600000,
+  MINUTES_5_IN_MILLISECONDS = 300000,
+  MINUTES_1_IN_MILLISECONDS = 60000
+};
+
+const lualtek_dutycycle_ms_t dutyCycleCommandTable[] PROGMEM = {
+  MINUTES_60_IN_MILLISECONDS,
+  MINUTES_40_IN_MILLISECONDS,
+  MINUTES_30_IN_MILLISECONDS,
+  MINUTES_20_IN_MILLISECONDS,
+  MINUTES_15_IN_MILLISECONDS,
+  MINUTES_10_IN_MILLISECONDS,
+  MINUTES_5_IN_MILLISECONDS,
+  MINUTES_1_IN_MILLISECONDS
 };
 
 class LualtekCubecell {
   public:
-    /* Please use one of the available MINUTES_X_IN_MILLISECONDS constants for dutyCycleMs */
-    LualtekCubecell(unsigned long dutyCycleMs, DeviceClass_t deviceClass, LoRaMacRegion_t deviceRegion, Stream &debugStream, bool debugEnabled);
+    /* Please use one of the available lualtek_dowlink_command_dutycycle_index_t constants for dutyCycleIndex */
+    LualtekCubecell(DeviceClass_t deviceClass, LoRaMacRegion_t deviceRegion, lualtek_dowlink_command_dutycycle_index_t dutyCycleIndex);
     void delayMillis(unsigned long millisToWait);
     /* Setup the device with common operations to be done, like setting the device duty cycle, class, region etc */
     void setup();
@@ -85,22 +87,11 @@ class LualtekCubecell {
 
   private:
     unsigned long previousMillis;
-    unsigned long uplinkInterval;
-    struct DutyCycleMs dutyCycleMs;
-
-    void debugPrint(const String &s);
-    void debugPrint(const char[]);
-    void debugPrintln(const String &s);
-    void debugPrintln(const char[]);
-    void debugPrintln(int i);
-
+    unsigned int defaultDutyCycleIndex;
 
     void handleChangeDutyCycle(int commandIndex);
 
     void (*onSendUplinkCallback)(int appPort);
-
-    Stream *debugStream = NULL;
-    bool debugEnabled = false;
 
     LoRaMacRegion_t deviceRegion = LORAMAC_REGION_EU868;
     DeviceClass_t deviceClass = CLASS_A;
