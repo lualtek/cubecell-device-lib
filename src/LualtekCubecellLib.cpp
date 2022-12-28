@@ -103,6 +103,7 @@ void LualtekCubecell::loop() {
     case DEVICE_STATE_INIT: {
       #if (!CUSTOM_DEVEUI)
         LoRaWAN.generateDeveuiByChipID();
+        printDevParam();
       #endif
 
       LoRaWAN.init(loraWanClass, loraWanRegion);
