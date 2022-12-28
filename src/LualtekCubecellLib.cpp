@@ -51,7 +51,7 @@ void LualtekCubecell::delayMillis(unsigned long millisToWait) {
 }
 
 void LualtekCubecell::handleChangeDutyCycle(int commandIndex) {
-  if (isDutyCycleIndex(commandIndex)) {
+  if (!isDutyCycleIndex(commandIndex)) {
     return;
   }
 
