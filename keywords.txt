@@ -1,0 +1,9 @@
+LualtekCubecell	KEYWORD1
+delayMillis	KEYWORD2
+join	KEYWORD2
+loop	KEYWORD2
+onDownlinkReceived	KEYWORD2
+onSendUplink	KEYWORD2
+readEEPROM	KEYWORD2
+setup	KEYWORD2
+writeEEPROM	KEYWORD2

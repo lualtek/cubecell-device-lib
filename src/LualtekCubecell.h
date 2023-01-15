@@ -1,6 +1,6 @@
 
-#ifndef _LUALTEKCUBECELLLIB_H_
-#define _LUALTEKCUBECELLLIB_H_
+#ifndef _LUALTEKCUBECELL_H_
+#define _LUALTEKCUBECELL_H_
 
 
 #include "EEPROM.h"

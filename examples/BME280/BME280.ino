@@ -1,6 +1,6 @@
 
 
-#include "LualtekCubecellLib.h"
+#include "LualtekCubecell.h"
 // #include <Seeed_BME280.h>
 #include <Wire.h>
 
