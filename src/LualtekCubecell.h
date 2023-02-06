@@ -17,6 +17,10 @@
   #define EEPROM_ADDRESS_DUTY_CYCLE_INDEX 10
 #endif
 
+#ifndef CUSTOM_DEVEUI
+  #define CUSTOM_DEVEUI false
+#endif
+
 enum lualtek_downlink_command_ports_t {
   DOWNLINK_ACTION_COMMAND_PORT = 1,
   DOWNLINK_ACTION_CHANGE_INTERVAL_PORT = 3,
